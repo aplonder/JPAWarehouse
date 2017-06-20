@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
 
-    Iterable<Book> findByBookTitle(String bookTitle);
+    Iterable<Book> findByTitle(String title);
 
 }

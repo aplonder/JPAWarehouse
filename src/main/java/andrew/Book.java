@@ -11,29 +11,29 @@ public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long bookId;
-    private String bookTitle;
+    private Long id;
+    private String title;
 
     protected Book() {
     }
 
-    public Book(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public Book(String title) {
+        this.title = title;
     }
 
-    public Long getBookId() {
-        return bookId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getBookTitle() {
-        return bookTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

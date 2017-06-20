@@ -4,7 +4,8 @@ package andrew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/")
+@RestController
+@RequestMapping(value = "/book")
 public class BookController {
 
     @Autowired
@@ -15,14 +16,14 @@ public class BookController {
         return bookService.findAll();
     }
 
-    @RequestMapping(value = "/book/{bookId}", method = RequestMethod.GET)
-    public Book findById(@PathVariable(value = "bookId") Long bookId) {
-        return bookService.findById(bookId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Book findById(@PathVariable(value = "id") Long id) {
+        return bookService.findById(id);
     }
 
-    @RequestMapping(value = "/{bookTitle}", method = RequestMethod.GET)
-    public Iterable<Book> findByBookTitle(@PathVariable(value = "bookTitle") String bookTitle) {
-        return bookService.findByBookTitle(bookTitle);
+    @RequestMapping(value = "/findByTitle/{title}", method = RequestMethod.GET)
+    public Iterable<Book> findByTitle(@PathVariable(value = "title") String title) {
+        return bookService.findByTitle(title);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -30,14 +31,14 @@ public class BookController {
         bookService.create(book);
     }
 
-    @RequestMapping(value = "/book/{bookId}", method = RequestMethod.PUT)
-    public void update(@PathVariable(value = "bookId") Long bookId, @RequestBody Book book) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable(value = "id") Long id, @RequestBody Book book) {
         bookService.update(book);
     }
 
-    @RequestMapping(value = "/book/{bookId}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "bookId") Long bookId) {
-        bookService.delete(bookId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable(value = "id") Long id) {
+        bookService.delete(id);
     }
 
 }

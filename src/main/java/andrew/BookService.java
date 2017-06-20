@@ -14,12 +14,12 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book findById(Long bookId) {
-        return bookRepository.findOne(bookId);
+    public Book findById(Long id) {
+        return bookRepository.findOne(id);
     }
 
-    public Iterable<Book> findByBookTitle(String bookTitle) {
-        return bookRepository.findByBookTitle(bookTitle);
+    public Iterable<Book> findByTitle(String title) {
+        return bookRepository.findByTitle(title);
     }
 
     public void create(Book book) {
@@ -30,8 +30,8 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void delete(Long bookId) {
-        bookRepository.delete(bookId);
+    public void delete(Long id) {
+        bookRepository.delete(id);
     }
 
 }
