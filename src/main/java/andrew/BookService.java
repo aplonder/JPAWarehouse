@@ -22,6 +22,10 @@ public class BookService {
         return bookRepository.findByTitle(title);
     }
 
+    public Iterable<Book> findByAuthor(Author author) {
+        return bookRepository.findByAuthor(author);
+    }
+
     public void create(Book book) {
         bookRepository.save(book);
     }

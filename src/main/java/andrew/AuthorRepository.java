@@ -1,9 +1,12 @@
 package andrew;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-/**
- * Created by andrew on 20.06.17.
- */
 public interface AuthorRepository extends CrudRepository <Author, Long> {
+
+    Iterable<Author> findByFirstNameOrLastName(@Param("firstName") String firstName,
+                                               @Param("lastName") String lastName);
+
+
 }
