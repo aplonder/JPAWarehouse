@@ -8,5 +8,4 @@ public interface AuthorRepository extends CrudRepository <Author, Long> {
     Iterable<Author> findByFirstNameOrLastName(@Param("firstName") String firstName,
                                                @Param("lastName") String lastName);
 
-
 }

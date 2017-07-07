@@ -34,8 +34,6 @@ public class AuthorController {
         return authorService.search(query);
     }
 
-
-
     @RequestMapping(value = "/{id}/book/", method = RequestMethod.GET)
     public Iterable<Book> findByAuthor(@PathVariable(value = "id") Long id) {
         Author author = authorService.findById(id);
@@ -47,7 +45,6 @@ public class AuthorController {
         authorService.create(author);
     }
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable(value = "id") Long id, @RequestBody Author author) {
         authorService.update(author);
@@ -57,6 +54,5 @@ public class AuthorController {
     public void delete(@PathVariable(value = "id") Long id) {
         authorService.delete(id);
     }
-
 
 }
