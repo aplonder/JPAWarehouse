@@ -3,6 +3,7 @@ package andrew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class AuthorService {
 
@@ -14,12 +15,16 @@ public class AuthorService {
     }
 
     public Author findById(Long id) {
-        return authorRepository.findOne(id);
+        return authorRepository.findById(id);
     }
 
 //    public Iterable<Author> findByFirstNameOrLastName(String firstName, String lastName) {
 //        return authorRepository.findByFirstNameOrLastName(firstName, lastName);
 //    }
+
+    public boolean isAuthorExist(String firstName, String lastName) {
+        return authorRepository.findByFirstNameAndLastName(firstName, lastName).isPresent();
+    }
 
     public Iterable<Author> search(String query) {
         return authorRepository.findByFirstNameOrLastName(query, query);
@@ -36,6 +41,5 @@ public class AuthorService {
     public void delete(Long id) {
         authorRepository.delete(id);
     }
-
 
 }

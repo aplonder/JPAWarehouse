@@ -20,12 +20,10 @@ public class Book implements Serializable {
     @ManyToOne
     private Author author;
 
+
     protected Book() {
     }
 
-//    public Book(String title) {
-//        this.title = title;
-//    }
 
     public Long getId() {
         return id;

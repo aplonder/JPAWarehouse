@@ -20,14 +20,11 @@ public class Author implements Serializable {
     @Size(min = 2, max = 15)
     private String lastName;
 
+
     protected Author() {
 
     }
 
-//    public Author(String firstName, String lastName) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//    }
 
     public Long getId() {
         return id;

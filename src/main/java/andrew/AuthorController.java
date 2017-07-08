@@ -1,7 +1,12 @@
 package andrew;
 
+import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/author")
@@ -20,14 +25,9 @@ public class AuthorController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Author findById(@PathVariable(value = "id") Long id) {
-        return authorService.findById(id);
+        return Optional.ofNullable(authorService.findById(id))
+                .orElseThrow(EntityNotFoundException::new);
     }
-
-//    @RequestMapping(value = "/findByFirstNameOrLastName/", method = RequestMethod.GET)
-//    public Iterable<Author> findByFirstNameOrLastName(@RequestParam(value = "firstName") String firstName,
-//                                                      @RequestParam(value = "lastName") String lastName) {
-//        return authorService.findByFirstNameOrLastName(firstName, lastName);
-//    }
 
     @RequestMapping(value = "/search/", method = RequestMethod.GET)
     public Iterable<Author> search(@RequestParam(value = "query") String query) {
@@ -36,13 +36,16 @@ public class AuthorController {
 
     @RequestMapping(value = "/{id}/book/", method = RequestMethod.GET)
     public Iterable<Book> findByAuthor(@PathVariable(value = "id") Long id) {
-        Author author = authorService.findById(id);
+        Author author = findById(id);
         return bookService.findByAuthor(author);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(@RequestBody Author author) {
-        authorService.create(author);
+    public ResponseEntity<Author> create(@RequestBody Author author) {
+        if (authorService.isAuthorExist(author.getFirstName(), author.getLastName())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
