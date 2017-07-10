@@ -18,12 +18,20 @@ public class BookService {
         return bookRepository.findOne(id);
     }
 
-    public Iterable<Book> findByTitle(String title) {
-        return bookRepository.findByTitle(title);
+    public Iterable<Book> search(String query) {
+        return bookRepository.findByTitleLike("%" + query + "%");
     }
 
     public Iterable<Book> findByAuthor(Author author) {
         return bookRepository.findByAuthor(author);
+    }
+
+    public boolean isBookExist(String title) {
+        return bookRepository.findOneByTitle(title).isPresent();
+    }
+
+    public void save(Book book) {
+        bookRepository.save(book);
     }
 
     public void create(Book book) {
