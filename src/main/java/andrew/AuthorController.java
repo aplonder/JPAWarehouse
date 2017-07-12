@@ -1,12 +1,12 @@
 package andrew;
 
+import andrew.dto.AuthorDTO;
 import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -41,23 +41,36 @@ public class AuthorController {
         return bookService.findByAuthor(author);
     }
 
+// STARA METODA POST (DATA VALIDATION)
+//    @RequestMapping(method = RequestMethod.POST)
+//    public ResponseEntity<Author> create(@RequestBody Author author) {
+//        if (authorService.isAuthorExist(author.getFirstName(), author.getLastName())) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        authorService.save(author);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
+
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Author> create(@RequestBody Author author) {
-        if (authorService.isAuthorExist(author.getFirstName(), author.getLastName())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        authorService.save(author);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity create(@RequestBody AuthorDTO.FormDTO author) {
+        authorService.create(author);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
+// STARA METODA PUT (DATA VALIDATION)
+//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+//    public ResponseEntity<Author> update(@PathVariable(value = "id") Long id, @RequestBody Author author) {
+//        Author savedAuthor = authorService.findByFirstNameAndLastName(author.getFirstName(),author.getLastName()).orElse(null);
+//        if (savedAuthor != null && !Objects.equals(savedAuthor.getId(), id)) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        authorService.save(author);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Author> update(@PathVariable(value = "id") Long id, @RequestBody Author author) {
-        Author savedAuthor = authorService.findByFirstNameAndLastName(author.getFirstName(),author.getLastName()).orElse(null);
-        if (savedAuthor != null && !Objects.equals(savedAuthor.getId(), id)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        authorService.save(author);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void update(@PathVariable(value = "id") Long id, @RequestBody AuthorDTO.FormDTO author) {
+        authorService.update(id, author);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

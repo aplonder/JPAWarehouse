@@ -1,6 +1,7 @@
 package andrew;
 
 
+import andrew.dto.BookDTO;
 import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,19 +50,24 @@ public class BookController {
 //        bookService.create(book);
 //    }
 
+//    @RequestMapping(method = RequestMethod.POST)
+//    public ResponseEntity<Book> create(@RequestBody Book book) {
+//        if (bookService.isBookExist(book.getTitle())) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        bookService.save(book);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
+
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Book> create(@RequestBody Book book) {
-        if (bookService.isBookExist(book.getTitle())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        bookService.save(book);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity create(@RequestBody BookDTO.FormDTO book) {
+        bookService.create(book);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable(value = "id") Long id, @RequestBody Book book) {
-        bookService.update(book);
+    public void update(@PathVariable(value = "id") Long id, @RequestBody BookDTO.FormDTO book) {
+        bookService.update(id, book);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
