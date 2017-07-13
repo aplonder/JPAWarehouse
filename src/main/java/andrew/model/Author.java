@@ -1,4 +1,4 @@
-package andrew;
+package andrew.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,11 +19,6 @@ public class Author implements Serializable {
     @NotNull
     @Size(min = 2, max = 15)
     private String lastName;
-
-
-    protected Author() {
-
-    }
 
 
     public Long getId() {

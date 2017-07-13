@@ -1,5 +1,9 @@
-package andrew;
+package andrew.controller;
 
+import andrew.model.Author;
+import andrew.service.AuthorService;
+import andrew.model.Book;
+import andrew.service.BookService;
 import andrew.dto.AuthorDTO;
 import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,36 +45,22 @@ public class AuthorController {
         return bookService.findByAuthor(author);
     }
 
-// STARA METODA POST (DATA VALIDATION)
-//    @RequestMapping(method = RequestMethod.POST)
-//    public ResponseEntity<Author> create(@RequestBody Author author) {
-//        if (authorService.isAuthorExist(author.getFirstName(), author.getLastName())) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        authorService.save(author);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
-
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody AuthorDTO.FormDTO author) {
-        authorService.create(author);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity<Author> create(@RequestBody AuthorDTO.FormDTO authorDTO) {
+        Optional<Author> savedAuthor = authorService.findByFirstNameAndLastName(authorDTO.firstName, authorDTO.lastName);
+        if (savedAuthor.isPresent()){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(authorService.create(authorDTO), HttpStatus.CREATED);
     }
 
-// STARA METODA PUT (DATA VALIDATION)
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public ResponseEntity<Author> update(@PathVariable(value = "id") Long id, @RequestBody Author author) {
-//        Author savedAuthor = authorService.findByFirstNameAndLastName(author.getFirstName(),author.getLastName()).orElse(null);
-//        if (savedAuthor != null && !Objects.equals(savedAuthor.getId(), id)) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        authorService.save(author);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable(value = "id") Long id, @RequestBody AuthorDTO.FormDTO author) {
-        authorService.update(id, author);
+    public ResponseEntity<Author> update(@PathVariable(value = "id") Long id, @RequestBody AuthorDTO.FormDTO authorDTO) {
+        Optional<Author> savedAuthor = authorService.findByFirstNameAndLastName(authorDTO.firstName, authorDTO.lastName);
+        if (savedAuthor.isPresent() && !savedAuthor.get().getId().equals(id)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(authorService.update(id, authorDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

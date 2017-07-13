@@ -1,9 +1,10 @@
-package andrew;
+package andrew.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Book implements Serializable {
@@ -20,9 +21,8 @@ public class Book implements Serializable {
     @ManyToOne
     private Author author;
 
-
-    protected Book() {
-    }
+    @OneToMany
+    private List<Chapter> chapters;
 
 
     public Long getId() {

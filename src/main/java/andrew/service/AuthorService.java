@@ -1,9 +1,10 @@
-package andrew;
+package andrew.service;
 
+import andrew.model.Author;
+import andrew.repository.AuthorRepository;
 import andrew.dto.AuthorDTO;
 import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,32 +28,23 @@ public class AuthorService {
         return authorRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
-    public boolean isAuthorExist(String firstName, String lastName) {
-        return authorRepository.findByFirstNameAndLastName(firstName, lastName).isPresent();
-    }
-
-
     public Iterable<Author> search(String query) {
         return authorRepository.findByFirstNameOrLastName(query, query);
     }
 
-    public void save(Author author) {
-        authorRepository.save(author);
-    }
-
-    public void create(AuthorDTO.FormDTO formDTO) {
+    public Author create(AuthorDTO.FormDTO formDTO) {
         Author author = new Author();
         author.setFirstName(formDTO.firstName);
         author.setLastName(formDTO.lastName);
-        authorRepository.save(author);
+        return authorRepository.save(author);
     }
 
-    public void update(Long id, AuthorDTO.FormDTO formDTO) {
+    public Author update(Long id, AuthorDTO.FormDTO formDTO) {
         Author savedAuthor = Optional.ofNullable(authorRepository.findOne(id))
                 .orElseThrow(EntityNotFoundException::new);
         savedAuthor.setFirstName(formDTO.firstName);
         savedAuthor.setLastName(formDTO.lastName);
-        authorRepository.save(savedAuthor);
+        return authorRepository.save(savedAuthor);
     }
 
     public void delete(Long id) {

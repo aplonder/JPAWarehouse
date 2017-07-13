@@ -1,8 +1,14 @@
-package andrew;
+package andrew.service;
 
+import andrew.model.Author;
+import andrew.model.Book;
+import andrew.repository.AuthorRepository;
+import andrew.repository.BookRepository;
 import andrew.dto.BookDTO;
 import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,9 +19,12 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private AuthorRepository authorRepository;
 
-    public Iterable<Book> findAll() {
-        return bookRepository.findAll();
+
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     public Book findById(Long id) {
@@ -30,27 +39,19 @@ public class BookService {
         return bookRepository.findByAuthor(author);
     }
 
-    public boolean isBookExist(String title) {
-        return bookRepository.findOneByTitle(title).isPresent();
+    public Book create(BookDTO.FormDTO formDTO) {
+        Book book = new Book();
+        book.setTitle(formDTO.title);
+        book.setAuthor(authorRepository.findById(formDTO.author.id));
+        return bookRepository.save(book);
     }
 
-    public void save(Book book) {
-        bookRepository.save(book);
-    }
-
-    public void create(/*Long id,*/ BookDTO.FormDTO formDTO) {
-        Book book = new Book();                                     // id ????
-        book.setTitle(formDTO.title);                               // walidacja ???
-        book.setAuthor(formDTO.author);
-        bookRepository.save(book);
-    }
-
-    public void update(Long id, BookDTO.FormDTO formDTO) {
+    public Book update(Long id, BookDTO.FormDTO formDTO) {
         Book savedBook = Optional.ofNullable(bookRepository.findOne(id))
                 .orElseThrow(EntityNotFoundException::new);
         savedBook.setTitle(formDTO.title);
-        savedBook.setAuthor(formDTO.author);
-        bookRepository.save(savedBook);
+        savedBook.setAuthor(authorRepository.findById(formDTO.author.id));
+        return bookRepository.save(savedBook);
     }
 
     public void delete(Long id) {
