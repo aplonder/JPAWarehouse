@@ -22,23 +22,6 @@ public class BookService {
     @Autowired
     private AuthorRepository authorRepository;
 
-
-    public Page<Book> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable);
-    }
-
-    public Book findById(Long id) {
-        return bookRepository.findOne(id);
-    }
-
-    public Iterable<Book> search(String query) {
-        return bookRepository.findByTitleLike("%" + query + "%");
-    }
-
-    public Iterable<Book> findByAuthor(Author author) {
-        return bookRepository.findByAuthor(author);
-    }
-
     public Book create(BookDTO.FormDTO formDTO) {
         Book book = new Book();
         book.setTitle(formDTO.title);
@@ -56,6 +39,22 @@ public class BookService {
 
     public void delete(Long id) {
         bookRepository.delete(id);
+    }
+
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    public Book findById(Long id) {
+        return bookRepository.findOne(id);
+    }
+
+    public Iterable<Book> search(String query) {
+        return bookRepository.findByTitleLike("%" + query + "%");
+    }
+
+    public Iterable<Book> findByAuthor(Author author) {
+        return bookRepository.findByAuthor(author);
     }
 
 }

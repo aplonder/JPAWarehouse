@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChapterRepository extends PagingAndSortingRepository<Chapter, Long> {
 
-    Iterable<Chapter> findByBook(Book book);
-
+//    Iterable<Chapter> findByBook(Book book);
+//
+//    Iterable<Chapter> findAll(Chapter chapter);
 }

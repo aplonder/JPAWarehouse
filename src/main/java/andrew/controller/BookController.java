@@ -23,6 +23,22 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<BookDTO.FullItem> create(@RequestBody BookDTO.FormDTO bookDTO) {
+        Book savedBook = bookService.create(bookDTO);
+        return new ResponseEntity<>(new BookDTO.FullItem(savedBook), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Book> update(@PathVariable(value = "id") Long id, @RequestBody BookDTO.FormDTO bookDTO) {
+        return new ResponseEntity<>(bookService.update(id, bookDTO), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable(value = "id") Long id) {
+        bookService.delete(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public Page<BookDTO.ListItem> findAll(Pageable pageable) {
         Page<Book> bookPage = bookService.findAll(pageable);
@@ -43,22 +59,6 @@ public class BookController {
     @RequestMapping(value = "/search/", method = RequestMethod.GET)
     public Iterable<Book> search(@RequestParam(value = "query") String query) {
         return bookService.search(query);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<BookDTO.FullItem> create(@RequestBody BookDTO.FormDTO bookDTO) {
-        Book savedBook = bookService.create(bookDTO);
-        return new ResponseEntity<>(new BookDTO.FullItem(savedBook), HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Book> update(@PathVariable(value = "id") Long id, @RequestBody BookDTO.FormDTO bookDTO) {
-        return new ResponseEntity<>(bookService.update(id, bookDTO), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "id") Long id) {
-        bookService.delete(id);
     }
 
 }

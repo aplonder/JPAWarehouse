@@ -1,11 +1,14 @@
 package andrew.service;
 
 import andrew.dto.ChapterDTO;
+import andrew.model.Book;
 import andrew.model.Chapter;
 import andrew.repository.BookRepository;
 import andrew.repository.ChapterRepository;
 import andrew.util.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,7 +45,14 @@ public class ChapterService {
         chapterRepository.delete(id);
     }
 
-    public Iterable<Chapter> findAll() {
-        return chapterRepository.findAll();
-    }
+
+//    public Iterable<Chapter> findAll() {
+//        return chapterRepository.findAll();
+//    }
+
+//    public Page<Chapter> findAll(Pageable pageable) {
+//        return chapterRepository.findAll(pageable);
+//    }
+
+
 }

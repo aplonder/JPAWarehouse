@@ -16,22 +16,6 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public Iterable<Author> findAll() {
-        return authorRepository.findAll();
-    }
-
-    public Author findById(Long id) {
-        return authorRepository.findById(id);
-    }
-
-    public Optional<Author> findByFirstNameAndLastName(String firstName, String lastName) {
-        return authorRepository.findByFirstNameAndLastName(firstName, lastName);
-    }
-
-    public Iterable<Author> search(String query) {
-        return authorRepository.findByFirstNameOrLastName(query, query);
-    }
-
     public Author create(AuthorDTO.FormDTO formDTO) {
         Author author = new Author();
         author.setFirstName(formDTO.firstName);
@@ -49,6 +33,22 @@ public class AuthorService {
 
     public void delete(Long id) {
         authorRepository.delete(id);
+    }
+
+    public Iterable<Author> findAll() {
+        return authorRepository.findAll();
+    }
+
+    public Author findById(Long id) {
+        return authorRepository.findById(id);
+    }
+
+    public Optional<Author> findByFirstNameAndLastName(String firstName, String lastName) {
+        return authorRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    public Iterable<Author> search(String query) {
+        return authorRepository.findByFirstNameOrLastName(query, query);
     }
 
 }
